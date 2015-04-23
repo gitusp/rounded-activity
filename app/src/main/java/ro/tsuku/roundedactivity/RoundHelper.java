@@ -21,10 +21,9 @@ public class RoundHelper {
     public static void round(final Activity activity) {
         final Window window = activity.getWindow();
         final View decorView = window.getDecorView();
-        final ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
 
         // observing the end of its layout
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 // getting the screen information
@@ -40,6 +39,12 @@ public class RoundHelper {
                 layoutParams.setMargins(0, usableRect.top, 0, 0);
                 imageView.setLayoutParams(layoutParams);
                 ((ViewGroup) decorView).addView(imageView);
+                // removing this listener
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    decorView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    decorView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
             }
         });
 
