@@ -40,12 +40,6 @@ public class RoundHelper {
                 layoutParams.setMargins(0, usableRect.top, 0, 0);
                 imageView.setLayoutParams(layoutParams);
                 ((ViewGroup) decorView).addView(imageView);
-                // removing this listener
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    viewTreeObserver.removeGlobalOnLayoutListener(this);
-                } else {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this);
-                }
             }
         });
 
