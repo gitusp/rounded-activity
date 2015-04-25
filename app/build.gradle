@@ -1,13 +1,58 @@
 apply plugin: 'android-library'
 apply plugin: 'maven'
+apply plugin: 'signing'
+
+version = "0.0.1"
+group = "ro.tsuku"
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+}
+
+signing {
+    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
 
 uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository url: "file://${projectDir}/repository"
-            pom.groupId = 'ro.tsuku'
-            pom.artifactId = 'roundedactivity'
-            pom.version = '0.0.1'
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: sonatypeRepo) {
+            authentication(userName: sonatypeUsername,
+                    password: sonatypePassword)
+        }
+
+        pom.project {
+            name 'Rounded Activity'
+            packaging 'aar'
+            description 'A decorator library that rounds corners of activities'
+            url 'https://github.com/gitusp/rounded-activity'
+
+            scm {
+                url 'scm:git@github.com:gitusp/rounded-activity.git'
+                connection 'scm:git@github.com:gitusp/rounded-activity.git'
+                developerConnection 'scm:git@github.com:gitusp/rounded-activity.git'
+            }
+
+            licenses {
+                license {
+                    name 'The MIT License (MIT)'
+                    url 'http://opensource.org/licenses/MIT'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'usp'
+                    name 'Shunsuke Usui'
+                    email 'ususso@gmail.com'
+                }
+            }
         }
     }
 }
@@ -19,8 +64,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
