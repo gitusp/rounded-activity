@@ -10,7 +10,10 @@ This library is for Android projects.
 Installation
 --
 
-Currently, I'm trying to register jCenter repository.
+Example for Gradle:
+```groovy
+compile 'ro.tsuku:roundedactivity:0.0.2@aar'
+```
 
 
 Usage
