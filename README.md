@@ -10,14 +10,7 @@ This library is for Android projects.
 Installation
 --
 
-Example for Gradle:
-```groovy
-repositories {
-  maven { url 'https://github.com/gitusp/rounded-activity/raw/master/app/repository' }
-}
-
-compile 'ro.tsuku:roundedactivity:0.0.1@aar'
-```
+Currently, I'm trying to register jCenter repository.
 
 
 Usage
