@@ -35,7 +35,7 @@ public class RoundHelper {
                 imageView.setImageResource(R.drawable.rounded_frame);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 // creating layout params
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(usableRect.width(), bottom - usableRect.top);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(usableRect.width(), bottom);
                 layoutParams.setMargins(0, usableRect.top, 0, 0);
                 imageView.setLayoutParams(layoutParams);
                 ((ViewGroup) decorView).addView(imageView);
