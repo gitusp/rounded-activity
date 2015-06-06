@@ -12,14 +12,14 @@ Installation
 
 Example for Gradle:
 ```groovy
-compile 'ro.tsuku:roundedactivity:0.0.2@aar'
+compile 'ro.tsuku:roundedactivity:0.0.3@aar'
 ```
 
 
 Usage
 --
 
-Simply call `RoundHelper.round` once for each activity.
+Simply call `RoundHelper.round` in `onCreate` of each activity.
 ```java
 RoundHelper.round(activity);
 ```
