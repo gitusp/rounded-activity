@@ -25,8 +25,7 @@ public class RoundHelper {
     public static void round(final Activity activity) {
         final Window window = activity.getWindow();
         final ViewGroup decorView = (ViewGroup) window.getDecorView();
-        final InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        final View contentView = decorView.findViewById(android.R.id.content);
 
         // Create image view.
         final ImageView imageView = new ImageView(activity);
@@ -35,14 +34,9 @@ public class RoundHelper {
         decorView.addView(imageView);
 
         // observing the end of its layout.
-        decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                // Ignore when a software keyboard causes this event.
-                if (inputMethodManager.isAcceptingText()) {
-                    return;
-                }
-
                 // getting the screen information
                 Rect usableRect = new Rect();
                 decorView.getWindowVisibleDisplayFrame(usableRect);
@@ -51,17 +45,16 @@ public class RoundHelper {
                 if ((window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
                     // Full screen.
                     // HACK: getWindowVisibleDisplayFrame doesn't reflect status bar immediately.
-                    layoutParams = new FrameLayout.LayoutParams(usableRect.width(), usableRect.height() + usableRect.top);
+                    layoutParams = new FrameLayout.LayoutParams(contentView.getWidth(), contentView.getHeight() + usableRect.top);
                     layoutParams.setMargins(usableRect.left, 0, 0, 0);
                 } else {
                     // Not full screen.
-                    layoutParams = new FrameLayout.LayoutParams(usableRect.width(), usableRect.height());
+                    layoutParams = new FrameLayout.LayoutParams(contentView.getWidth(), contentView.getHeight());
                     layoutParams.setMargins(usableRect.left, usableRect.top, 0, 0);
                 }
                 // Apply layout params.
                 imageView.setLayoutParams(layoutParams);
             }
         });
-
     }
 }
