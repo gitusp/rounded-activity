@@ -18,6 +18,7 @@ import android.widget.ImageView;
  * Created by usp on 4/23/15.
  */
 public class RoundHelper {
+    private static final float KEYBOARD_THRESHOLD_RATIO = 0.1f;
     /**
      * Clips corners of the given activity
      * @param activity
@@ -26,6 +27,7 @@ public class RoundHelper {
         final Window window = activity.getWindow();
         final ViewGroup decorView = (ViewGroup) window.getDecorView();
         final View contentView = decorView.findViewById(android.R.id.content);
+        final View rootView = contentView.getRootView();
 
         // Create image view.
         final ImageView imageView = new ImageView(activity);
@@ -40,6 +42,11 @@ public class RoundHelper {
                 // getting the screen information
                 Rect usableRect = new Rect();
                 decorView.getWindowVisibleDisplayFrame(usableRect);
+                // calculating minimum height
+                int screenHeight = rootView.getHeight();
+                if (screenHeight * KEYBOARD_THRESHOLD_RATIO < screenHeight - usableRect.bottom) {
+                    return;
+                }
                 // creating layout params
                 FrameLayout.LayoutParams layoutParams;
                 if ((window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) != 0) {
